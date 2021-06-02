@@ -1,0 +1,77 @@
+CREATE TABLE shop (
+    shop_id text,
+    shop_name text,
+    shop_status text
+);
+
+CREATE TABLE account (
+    account_id text,
+    shop_id text,
+    account_name text,
+    account_password text,
+    account_previlege text,
+    account_status text
+);
+
+CREATE TABLE product (
+    product_id text,
+    shop_id text,
+    product_name text,
+    product_sale_price integer,
+    product_status text
+);
+
+CREATE TABLE product_detail (
+    product_detail_id text,
+    product_id text,
+    product_purchase_price integer,
+    stock integer,
+    product_expired_date text,
+    product_detail_status text
+);
+
+CREATE TABLE sales_header (
+    sales_id text,
+    account_id text,
+    shop_id text,
+    transaction_date_time text,
+    transaction_price_change integer,
+    payment_status text,
+    sales_status text
+);
+
+CREATE TABLE sales_detail (
+    sales_id  text,
+    product_detail_id text,
+    product_sale_price integer,
+    amount integer,
+    sales_detail_status text
+);
+
+CREATE TABLE supplier (
+    supplier_id text,
+    shop_id text,
+    supplier_name text,
+    supplier_address text,
+    supplier_phone text,
+    supplier_status text
+);
+
+CREATE TABLE purchase_header (
+    purchase_id text,
+    supplier_id text,
+    shop_id text,
+    transaction_date_time text,
+    transaction_price_change integer,
+    payment_status text,
+    purchase_status text
+);
+
+CREATE TABLE purchase_detail (
+    purchase_id text,
+    product_detail_id text,
+    amount integer,
+    purchase_detail_status text
+);
+
+
