@@ -32,7 +32,7 @@ def ShopRegister():
         return "Username Already Taken"
 
 
-@app.route('/Login', methods=['GET'])
+@app.route('/Login', methods=['POST'])
 def Login():
     json_data = request.get_json()
 

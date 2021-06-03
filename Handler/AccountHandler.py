@@ -1,4 +1,5 @@
 import Repository.AccountRepository as AccountRepository
+import Repository.ShopRepository as ShopRepository
 
 import Factory.AccountFactory as AccountFactory
 
@@ -64,6 +65,11 @@ class AccountHandler:
             account_name, account_password)
 
         if account_list:
-            return account_list[0]
+            shop = ShopRepository.ShopRepository.GetShopById(
+                account_list[0]['shop_id'])
+
+            respond = {"account": account_list[0],  "shop": shop[0]}
+
+            return respond
         else:
             return {"status": "Wrong Credential"}
