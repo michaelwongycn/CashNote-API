@@ -15,12 +15,12 @@ import Handler.SalesDetailHandler as SalesDetailHandler
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['POST'])
 def Home():
     return "CashNote API"
 
 
-@app.route('/ShopRegister', methods=['GET'])
+@app.route('/ShopRegister', methods=['POST'])
 def ShopRegister():
     json_data = request.get_json()
 
@@ -44,7 +44,7 @@ def Login():
         return "Wrong Credential"
 
 
-@app.route('/CreateSales', methods=['GET'])
+@app.route('/CreateSales', methods=['POST'])
 def CreateSales():
     json_data = request.get_json()
 
@@ -57,7 +57,7 @@ def CreateSales():
         return "Error Creating Sales"
 
 
-@app.route('/CreateSalesDetail', methods=['GET'])
+@app.route('/CreateSalesDetail', methods=['POST'])
 def CreateSalesDetail():
     json_data = request.get_json()
 
@@ -70,7 +70,7 @@ def CreateSalesDetail():
         return "Error Creating Sales Detail"
 
 
-@app.route('/CreatePurchase', methods=['GET'])
+@app.route('/CreatePurchase', methods=['POST'])
 def CreatePurchase():
     json_data = request.get_json()
 
@@ -83,7 +83,7 @@ def CreatePurchase():
         return "Error Creating Purchase"
 
 
-@app.route('/CreatePurchaseDetail', methods=['GET'])
+@app.route('/CreatePurchaseDetail', methods=['POST'])
 def CreatePurchaseDetail():
     json_data = request.get_json()
 
@@ -96,7 +96,7 @@ def CreatePurchaseDetail():
         return "Error Creating Purchase Detail"
 
 
-@app.route('/ChangeSalesToPaid', methods=['GET'])
+@app.route('/ChangeSalesToPaid', methods=['POST'])
 def ChangeSalesToPaid():
     json_data = request.get_json()
 
@@ -109,7 +109,7 @@ def ChangeSalesToPaid():
         return "Error Changing Payment Status"
 
 
-@app.route('/GetSalesHeader', methods=['GET'])
+@app.route('/GetSalesHeader', methods=['POST'])
 def GetSalesHeader():
     json_data = request.get_json()
 
@@ -122,7 +122,7 @@ def GetSalesHeader():
         return "Error Fetching Sales"
 
 
-@app.route('/GetSalesDetail', methods=['GET'])
+@app.route('/GetSalesDetail', methods=['POST'])
 def GetSalesDetail():
     json_data = request.get_json()
 
@@ -135,7 +135,7 @@ def GetSalesDetail():
         return "Error Fetching Sales Detail"
 
 
-@app.route('/DeleteSales', methods=['GET'])
+@app.route('/DeleteSales', methods=['POST'])
 def DeleteSales():
     json_data = request.get_json()
 
@@ -148,7 +148,7 @@ def DeleteSales():
         return "Error Deleting Sales"
 
 
-@app.route('/DeleteSalesDetail', methods=['GET'])
+@app.route('/DeleteSalesDetail', methods=['POST'])
 def DeleteSalesDetail():
     json_data = request.get_json()
 
@@ -161,7 +161,7 @@ def DeleteSalesDetail():
         return "Error Deleting Sales Detail"
 
 
-@app.route('/ChangePurchaseToPaid', methods=['GET'])
+@app.route('/ChangePurchaseToPaid', methods=['POST'])
 def ChangePurchaseToPaid():
     json_data = request.get_json()
 
@@ -174,7 +174,7 @@ def ChangePurchaseToPaid():
         return "Error Changing Payment Status"
 
 
-@app.route('/GetPurchaseHeader', methods=['GET'])
+@app.route('/GetPurchaseHeader', methods=['POST'])
 def GetPurchaseHeader():
     json_data = request.get_json()
 
@@ -187,7 +187,7 @@ def GetPurchaseHeader():
         return "Error Fetching Purchase"
 
 
-@app.route('/GetPurchaseDetail', methods=['GET'])
+@app.route('/GetPurchaseDetail', methods=['POST'])
 def GetPurchaseDetail():
     json_data = request.get_json()
 
@@ -200,7 +200,7 @@ def GetPurchaseDetail():
         return "Error Fetching Purchase Detail"
 
 
-@app.route('/DeletePurchase', methods=['GET'])
+@app.route('/DeletePurchase', methods=['POST'])
 def DeletePurchase():
     json_data = request.get_json()
 
@@ -213,7 +213,7 @@ def DeletePurchase():
         return "Error Deleting Purchase"
 
 
-@app.route('/DeletePurchaseDetail', methods=['GET'])
+@app.route('/DeletePurchaseDetail', methods=['POST'])
 def DeletePurchaseDetail():
     json_data = request.get_json()
 
@@ -226,7 +226,7 @@ def DeletePurchaseDetail():
         return "Error Deleting Purchase Detail"
 
 
-@app.route('/CreateSupplier', methods=['GET'])
+@app.route('/CreateSupplier', methods=['POST'])
 def CreateSupplier():
     json_data = request.get_json()
 
@@ -238,7 +238,7 @@ def CreateSupplier():
         return "Error Adding Supplier"
 
 
-@app.route('/GetSupplier', methods=['GET'])
+@app.route('/GetSupplier', methods=['POST'])
 def GetSupplier():
     json_data = request.get_json()
 
@@ -250,7 +250,7 @@ def GetSupplier():
         return "Error Fetching Supplier"
 
 
-@app.route('/DeleteSupplier', methods=['GET'])
+@app.route('/DeleteSupplier', methods=['POST'])
 def DeleteSupplier():
     json_data = request.get_json()
 
@@ -262,7 +262,7 @@ def DeleteSupplier():
         return "Error Deleting Supplier"
 
 
-@app.route('/CreateAdmin', methods=['GET'])
+@app.route('/CreateAdmin', methods=['POST'])
 def CreateAdmin():
     json_data = request.get_json()
 
@@ -274,7 +274,7 @@ def CreateAdmin():
         return "Error Adding Admin"
 
 
-@app.route('/GetAdmin', methods=['GET'])
+@app.route('/GetAdmin', methods=['POST'])
 def GetAdmin():
     json_data = request.get_json()
 
@@ -286,7 +286,7 @@ def GetAdmin():
         return "Error Fetching Admin"
 
 
-@app.route('/DeleteAdmin', methods=['GET'])
+@app.route('/DeleteAdmin', methods=['POST'])
 def DeleteAdmin():
     json_data = request.get_json()
 
@@ -298,7 +298,7 @@ def DeleteAdmin():
         return "Error Deleting Admin"
 
 
-@app.route('/CreateProduct', methods=['GET'])
+@app.route('/CreateProduct', methods=['POST'])
 def CreateProduct():
     json_data = request.get_json()
 
@@ -310,7 +310,7 @@ def CreateProduct():
         return "Error Adding Product"
 
 
-@app.route('/GetProduct', methods=['GET'])
+@app.route('/GetProduct', methods=['POST'])
 def GetProduct():
     json_data = request.get_json()
 
@@ -322,7 +322,7 @@ def GetProduct():
         return "Error Fetching Product"
 
 
-@app.route('/GetProductDetail', methods=['GET'])
+@app.route('/GetProductDetail', methods=['POST'])
 def GetProducDetail():
     json_data = request.get_json()
 
@@ -335,7 +335,7 @@ def GetProducDetail():
         return "Error Fetching Product Detail"
 
 
-@app.route('/UpdateProduct', methods=['GET'])
+@app.route('/UpdateProduct', methods=['POST'])
 def UpdateProduct():
     json_data = request.get_json()
 
@@ -347,7 +347,7 @@ def UpdateProduct():
         return "Error Updating Product"
 
 
-@app.route('/UpdateProductDetail', methods=['GET'])
+@app.route('/UpdateProductDetail', methods=['POST'])
 def UpdateProductDetail():
     json_data = request.get_json()
 
@@ -360,7 +360,7 @@ def UpdateProductDetail():
         return "Error Updating Product Detail"
 
 
-@app.route('/DeleteProduct', methods=['GET'])
+@app.route('/DeleteProduct', methods=['POST'])
 def DeleteProduct():
     json_data = request.get_json()
 
@@ -372,7 +372,7 @@ def DeleteProduct():
         return "Error Deleting Product"
 
 
-@app.route('/DeleteProductDetail', methods=['GET'])
+@app.route('/DeleteProductDetail', methods=['POST'])
 def DeleteProductDetail():
     json_data = request.get_json()
 
