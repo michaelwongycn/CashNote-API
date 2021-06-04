@@ -56,7 +56,9 @@ class ProductRepository:
         cursor.close()
         connection.close()
 
-        return product_list
+        result = {"Data": product_list}
+
+        return result
 
     def GetProductById(product_id):
         connection = Utility.get_connection()
