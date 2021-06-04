@@ -59,7 +59,9 @@ class SalesHeaderRepository:
         cursor.close()
         connection.close()
 
-        return sales_header_list
+        result = {"Data": sales_header_list}
+
+        return result
 
     def GetSalesHeaderByAccount(account_id):
         connection = Utility.get_connection()

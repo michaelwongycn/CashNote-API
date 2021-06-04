@@ -25,6 +25,8 @@ class ProductDetailHandler:
                               "product_expired_date": str(product_detail.product_expired_date),
                               "product_detail_status": str(product_detail.product_detail_status)}
 
+            return product_detail
+
         else:
             return {"status": "Error"}
 

@@ -56,7 +56,9 @@ class SalesDetailRepository:
         cursor.close()
         connection.close()
 
-        return sales_detail_list
+        result = {"Data": sales_detail_list}
+
+        return result
 
     def GetUniqueSalesDetail(sales_id, product_detail_id):
         connection = Utility.get_connection()

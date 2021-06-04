@@ -1,5 +1,6 @@
 import Utility
 
+
 class ShopRepository:
     def AddShop(shop):
         connection = Utility.get_connection()
@@ -34,7 +35,9 @@ class ShopRepository:
         cursor.close()
         connection.close()
 
-        return shop_list
+        result = {"Data": shop_list}
+
+        return result
 
     def GetShopById(shop_id):
         connection = Utility.get_connection()

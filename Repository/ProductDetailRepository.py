@@ -58,7 +58,9 @@ class ProductDetailRepository:
         cursor.close()
         connection.close()
 
-        return product_detail_list
+        result = {"Data": product_detail_list}
+
+        return result
 
     def GetProductDetailWithStockByProduct(product_id):
         connection = Utility.get_connection()

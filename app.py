@@ -320,7 +320,7 @@ def CreateProductDetail():
     if response:
         return json.dumps(response)
     else:
-        return "Error Adding Product"
+        return "Error Adding Product Detail"
 
 
 @app.route('/GetProduct', methods=['POST'])

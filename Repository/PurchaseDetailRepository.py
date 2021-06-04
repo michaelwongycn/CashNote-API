@@ -56,7 +56,9 @@ class PurchaseDetailRepository:
         cursor.close()
         connection.close()
 
-        return purchase_detail_list
+        result = {"Data": purchase_detail_list}
+
+        return result
 
     def GetUniquePurchaseDetail(purchase_id, product_detail_id):
         connection = Utility.get_connection()
