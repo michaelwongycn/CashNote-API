@@ -23,7 +23,8 @@ class AccountHandler:
             if result == "success":
 
                 account = {"account_id": str(account.account_id),  "shop_id": str(account.shop_id),
-                           "account_name": str(account.account_name), "account_password": str(account.account_password), "account_previlege": str(account.account_previlege), "account_status": str(account.account_status)}
+                           "account_name": str(account.account_name), "account_password": str(account.account_password),
+                           "account_previlege": str(account.account_previlege), "account_status": str(account.account_status)}
 
                 return account
             else:

@@ -17,7 +17,14 @@ class ProductDetailHandler:
             product_detail)
 
         if result == "success":
-            return {"status": "Success"}
+
+            product_detail = {"product_detail_id": str(product_detail.product_detail_id),
+                              "product_id": str(product_detail.product_id),
+                              "product_purchase_price": str(product_detail.product_purchase_price),
+                              "stock": str(product_detail.stock),
+                              "product_expired_date": str(product_detail.product_expired_date),
+                              "product_detail_status": str(product_detail.product_detail_status)}
+
         else:
             return {"status": "Error"}
 

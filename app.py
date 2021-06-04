@@ -310,6 +310,18 @@ def CreateProduct():
         return "Error Adding Product"
 
 
+@app.route('/CreateProductDetail', methods=['POST'])
+def CreateProductDetail():
+    json_data = request.get_json()
+
+    response = ProductDetailHandler.ProductDetailHandler.AddProduct(json_data)
+
+    if response:
+        return json.dumps(response)
+    else:
+        return "Error Adding Product"
+
+
 @app.route('/GetProduct', methods=['POST'])
 def GetProduct():
     json_data = request.get_json()
