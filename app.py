@@ -314,7 +314,8 @@ def CreateProduct():
 def CreateProductDetail():
     json_data = request.get_json()
 
-    response = ProductDetailHandler.ProductDetailHandler.AddProduct(json_data)
+    response = ProductDetailHandler.ProductDetailHandler.AddProductDetail(
+        json_data)
 
     if response:
         return json.dumps(response)
