@@ -56,9 +56,7 @@ class PurchaseHeaderRepository:
         cursor.close()
         connection.close()
 
-        result = {"Data": purchase_header_list}
-
-        return result
+        return purchase_header_list
 
     def GetPurchaseHeaderBySupplier(supplier_id):
         connection = Utility.get_connection()

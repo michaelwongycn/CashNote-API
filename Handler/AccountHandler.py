@@ -39,7 +39,10 @@ class AccountHandler:
         account_list = AccountRepository.AccountRepository.GetAccountByShop(
             shop_id)
 
-        return account_list
+        Data = {}
+        Data["Data"] = account_list
+
+        return Data
 
     def RemoveAdmin(json_data):
         account_id = json_data['account_id']

@@ -56,9 +56,7 @@ class AccountRepository:
         cursor.close()
         connection.close()
 
-        result = {"Data": account_list}
-
-        return result
+        return account_list
 
     def GetAccountById(account_id):
         connection = Utility.get_connection()

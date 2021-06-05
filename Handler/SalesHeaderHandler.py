@@ -37,7 +37,10 @@ class SalesHeaderHandler:
         purchase_header_list = SalesHeaderRepository.SalesHeaderRepository.GetSalesHeaderByShop(
             shop_id)
 
-        return purchase_header_list
+        Data = {}
+        Data["Data"] = purchase_header_list
+
+        return Data
 
     def SetPaymentToPaid(json_data):
         sales_id = json_data['sales_id']

@@ -35,9 +35,7 @@ class ShopRepository:
         cursor.close()
         connection.close()
 
-        result = {"Data": shop_list}
-
-        return result
+        return shop_list
 
     def GetShopById(shop_id):
         connection = Utility.get_connection()

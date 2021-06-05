@@ -56,9 +56,7 @@ class SupplierRepository:
         cursor.close()
         connection.close()
 
-        result = {"Data": supplier_list}
-
-        return result
+        return supplier_list
 
     def GetSupplierById(supplier_id):
         connection = Utility.get_connection()

@@ -31,7 +31,10 @@ class ProductHandler:
         product_list = ProductRepository.ProductRepository.GetProductByShop(
             shop_id)
 
-        return product_list
+        Data = {}
+        Data["Data"] = product_list
+
+        return Data
 
     def GetProductById(json_data):
         product_id = json_data['product_id']

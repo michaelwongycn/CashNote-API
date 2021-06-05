@@ -58,7 +58,10 @@ class SalesDetailHandler:
         purchase_detail_list = SalesDetailRepository.SalesDetailRepository.GetSalesDetailBySales(
             sales_id)
 
-        return purchase_detail_list
+        Data = {}
+        Data["Data"] = purchase_detail_list
+
+        return Data
 
     def GetUniqueSalesDetail(json_data):
         sales_id = json_data['sales_id']

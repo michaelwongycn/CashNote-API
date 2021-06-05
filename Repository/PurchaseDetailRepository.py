@@ -56,9 +56,28 @@ class PurchaseDetailRepository:
         cursor.close()
         connection.close()
 
-        result = {"Data": purchase_detail_list}
+        return purchase_detail_list
 
-        return result
+    def GetPurchaseDetailByProductDetail(product_detail_id):
+        connection = Utility.get_connection()
+        cursor = connection.cursor()
+
+        query = "SELECT * FROM purchase_detail WHERE product_detail_id = ? AND purchase_detail_status = 'A'"
+        params = [product_detail_id]
+        cursor.execute(query, params)
+
+        purchases_detail = cursor.fetchall()
+        purchase_detail_list = []
+
+        for purchase_detail in purchases_detail:
+            dictionary = {"purchase_id": purchase_detail[0],  "product_detail_id": purchase_detail[1],
+                          "amount": purchase_detail[2], "purchase_detail_status": purchase_detail[3]}
+            purchase_detail_list.append(dictionary)
+
+        cursor.close()
+        connection.close()
+
+        return purchase_detail_list
 
     def GetUniquePurchaseDetail(purchase_id, product_detail_id):
         connection = Utility.get_connection()

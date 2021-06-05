@@ -31,7 +31,10 @@ class SupplierHandler:
         supplier_list = SupplierRepository.SupplierRepository.GetSupplierByShop(
             shop_id)
 
-        return supplier_list
+        Data = {}
+        Data["Data"] = supplier_list
+
+        return Data
 
     def GetSupplierById(json_data):
         supplier_id = json_data['supplier_id']

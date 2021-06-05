@@ -1,4 +1,7 @@
+import Repository.SupplierRepository as SupplierRepository
 import Repository.ProductDetailRepository as ProductDetailRepository
+import Repository.PurchaseDetailRepository as PurchaseDetailRepository
+import Repository.PurchaseHeaderRepository as PurchaseHeaderRepository
 
 import Factory.ProductDetailFactory as ProductDetailFactory
 
@@ -32,11 +35,37 @@ class ProductDetailHandler:
 
     def GetProductDetailByProduct(json_data):
         product_id = json_data['product_id']
+        result = []
 
         product_detail_list = ProductDetailRepository.ProductDetailRepository.GetProductDetailByProduct(
             product_id)
 
-        return product_detail_list
+        for product_detail in product_detail_list:
+
+            product_detail_id = product_detail['product_detail_id']
+
+            purchase_detail = PurchaseDetailRepository.PurchaseDetailRepository.GetPurchaseDetailByProductDetail(
+                product_detail_id)
+
+            purchase_id = purchase_detail[0]['purchase_id']
+
+            purchase_header = PurchaseHeaderRepository.PurchaseHeaderRepository.GetPurchaseHeaderById(
+                purchase_id)
+
+            supplier_id = purchase_header[0]['supplier_id']
+
+            supplier = SupplierRepository.SupplierRepository.GetSupplierById(
+                supplier_id)
+
+            tempResult = {"Product Detail": product_detail,
+                          "Supplier": supplier}
+
+            result.append(tempResult)
+
+        Data = {}
+        Data["Data"] = result
+
+        return Data
 
     def UpdateProductDetail(json_data):
         product_detail_id = json_data['product_detail_id']

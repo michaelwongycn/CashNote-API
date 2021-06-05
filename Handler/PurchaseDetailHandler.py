@@ -56,7 +56,10 @@ class PurchaseDetailHandler:
         purchase_detail_list = PurchaseDetailRepository.PurchaseDetailRepository.GetPurchaseDetailByPurchase(
             purchase_id)
 
-        return purchase_detail_list
+        Data = {}
+        Data["Data"] = purchase_detail_list
+
+        return Data
 
     def GetUniquePurchaseDetail(json_data):
         purchase_id = json_data['purchase_id']

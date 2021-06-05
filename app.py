@@ -345,6 +345,7 @@ def GetProducDetail():
     if response:
         return json.dumps(response)
     else:
+        return json.dumps(response)
         return "Error Fetching Product Detail"
 
 
