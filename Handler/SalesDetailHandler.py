@@ -54,13 +54,17 @@ class SalesDetailHandler:
     def GetSalesDetailBySales(json_data):
         sales_id = json_data['sales_id']
 
-        purchase_detail_list = SalesDetailRepository.SalesDetailRepository.GetSalesDetailBySales(
+        sales_detail_list = SalesDetailRepository.SalesDetailRepository.GetSalesDetailBySales(
             sales_id)
 
-        Data = {}
-        Data["Data"] = purchase_detail_list
+        if sales_detail_list:
+            Data = {}
+            Data["Data"] = sales_detail_list
 
-        return Data
+            return Data
+
+        else:
+            return {"status": "Error No Such Sales's Detail"}
 
     def GetUniqueSalesDetail(json_data):
         sales_id = json_data['sales_id']
@@ -69,16 +73,28 @@ class SalesDetailHandler:
         sales_detail_list = SalesDetailRepository.SalesDetailRepository.GetUniqueSalesDetail(
             sales_id, product_detail_id)
 
-        return sales_detail_list
+        if sales_detail_list:
+            Data = {}
+            Data["Data"] = sales_detail_list
+
+            return Data
+
+        else:
+            return {"status": "Error No Such Sales's Detail"}
 
     def DeleteUniqueSalesDetail(json_data):
         sales_id = json_data['sales_id']
         product_detail_id = json_data['product_detail_id']
 
-        result = SalesDetailRepository.SalesDetailRepository.DeleteSalesDetail(
+        sales_detail_list = SalesDetailRepository.SalesDetailRepository.GetUniqueSalesDetail(
             sales_id, product_detail_id)
 
-        if result == "success":
-            return {"status": "Success"}
+        if sales_detail_list:
+            result = SalesDetailRepository.SalesDetailRepository.DeleteSalesDetail(
+                sales_id, product_detail_id)
+
+            if result == "success":
+                return {"status": "Success"}
+
         else:
-            return {"status": "Error"}
+            return {"status": "Error Sales's Detail Not Found"}

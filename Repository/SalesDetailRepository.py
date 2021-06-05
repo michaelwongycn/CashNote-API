@@ -58,6 +58,27 @@ class SalesDetailRepository:
 
         return sales_detail_list
 
+    def GetSalesDetailByProductDetail(product_detail_id):
+        connection = Utility.get_connection()
+        cursor = connection.cursor()
+
+        query = "SELECT * FROM sales_detail WHERE product_detail_id = ? AND sales_detail_status = 'A'"
+        params = [product_detail_id]
+        cursor.execute(query, params)
+
+        sales_detail = cursor.fetchall()
+        sales_detail_list = []
+
+        for sales_detail in sales_detail:
+            dictionary = {"sales_id": sales_detail[0],  "product_detail_id": sales_detail[1], "product_sale_price": sales_detail[2],
+                          "amount": sales_detail[3], "sales_detail_status": sales_detail[4]}
+            sales_detail_list.append(dictionary)
+
+        cursor.close()
+        connection.close()
+
+        return sales_detail_list
+
     def GetUniqueSalesDetail(sales_id, product_detail_id):
         connection = Utility.get_connection()
         cursor = connection.cursor()

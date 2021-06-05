@@ -32,7 +32,7 @@ class ProductDetailRepository:
         for product_detail in products_detail:
             dictionary = {"product_detail_id": product_detail[0],  "product_id": product_detail[1], "supplier_id": product_detail[2],
                           "product_purchase_price": product_detail[3], "stock": product_detail[4],
-                          "product_expired_data": product_detail[5], "product_detail_status": product_detail[6]}
+                          "product_expired_date": product_detail[5], "product_detail_status": product_detail[6]}
             product_detail_list.append(dictionary)
 
         cursor.close()
@@ -54,7 +54,29 @@ class ProductDetailRepository:
         for product_detail in products_detail:
             dictionary = {"product_detail_id": product_detail[0],  "product_id": product_detail[1], "supplier_id": product_detail[2],
                           "product_purchase_price": product_detail[3], "stock": product_detail[4],
-                          "product_expired_data": product_detail[5], "product_detail_status": product_detail[6]}
+                          "product_expired_date": product_detail[5], "product_detail_status": product_detail[6]}
+            product_detail_list.append(dictionary)
+
+        cursor.close()
+        connection.close()
+
+        return product_detail_list
+
+    def GetProductDetailBySupplier(supplier_id):
+        connection = Utility.get_connection()
+        cursor = connection.cursor()
+
+        query = "SELECT * FROM product_detail WHERE supplier_id = ? AND product_detail_status = 'A'"
+        params = [supplier_id]
+        cursor.execute(query, params)
+
+        products_detail = cursor.fetchall()
+        product_detail_list = []
+
+        for product_detail in products_detail:
+            dictionary = {"product_detail_id": product_detail[0],  "product_id": product_detail[1], "supplier_id": product_detail[2],
+                          "product_purchase_price": product_detail[3], "stock": product_detail[4],
+                          "product_expired_date": product_detail[5], "product_detail_status": product_detail[6]}
             product_detail_list.append(dictionary)
 
         cursor.close()
@@ -76,7 +98,7 @@ class ProductDetailRepository:
         for product_detail in products_detail:
             dictionary = {"product_detail_id": product_detail[0],  "product_id": product_detail[1], "supplier_id": product_detail[2],
                           "product_purchase_price": product_detail[3], "stock": product_detail[4],
-                          "product_expired_data": product_detail[5], "product_detail_status": product_detail[6]}
+                          "product_expired_date": product_detail[5], "product_detail_status": product_detail[6]}
             product_detail_list.append(dictionary)
 
         cursor.close()
@@ -99,7 +121,7 @@ class ProductDetailRepository:
         for product_detail in products_detail:
             dictionary = {"product_detail_id": product_detail[0],  "product_id": product_detail[1], "supplier_id": product_detail[2],
                           "product_purchase_price": product_detail[3], "stock": product_detail[4],
-                          "product_expired_data": product_detail[5], "product_detail_status": product_detail[6]}
+                          "product_expired_date": product_detail[5], "product_detail_status": product_detail[6]}
             product_detail_list.append(dictionary)
 
         cursor.close()
@@ -121,7 +143,7 @@ class ProductDetailRepository:
         for product_detail in products_detail:
             dictionary = {"product_detail_id": product_detail[0],  "product_id": product_detail[1], "supplier_id": product_detail[2],
                           "product_purchase_price": product_detail[3], "stock": product_detail[4],
-                          "product_expired_data": product_detail[5], "product_detail_status": product_detail[6]}
+                          "product_expired_date": product_detail[5], "product_detail_status": product_detail[6]}
             product_detail_list.append(dictionary)
 
         cursor.close()

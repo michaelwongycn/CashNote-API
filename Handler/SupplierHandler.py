@@ -1,4 +1,6 @@
 import Repository.SupplierRepository as SupplierRepository
+import Repository.PurchaseHeaderRepository as PurchaseHeaderRepository
+import Repository.ProductDetailRepository as ProductDetailRepository
 
 import Factory.SupplierFactory as SupplierFactory
 
@@ -23,7 +25,7 @@ class SupplierHandler:
 
             return supplier
         else:
-            return {"status": "Error"}
+            return {"status": "Error Registering Supplier"}
 
     def GetSupplierByShop(json_data):
         shop_id = json_data['shop_id']
@@ -31,10 +33,14 @@ class SupplierHandler:
         supplier_list = SupplierRepository.SupplierRepository.GetSupplierByShop(
             shop_id)
 
-        Data = {}
-        Data["Data"] = supplier_list
+        if supplier_list:
+            Data = {}
+            Data["Data"] = supplier_list
 
-        return Data
+            return Data
+
+        else:
+            return {"status": "Error No Such Supplier"}
 
     def GetSupplierById(json_data):
         supplier_id = json_data['supplier_id']
@@ -42,7 +48,14 @@ class SupplierHandler:
         supplier_list = SupplierRepository.SupplierRepository.GetSupplierById(
             supplier_id)
 
-        return supplier_list
+        if supplier_list:
+            Data = {}
+            Data["Data"] = supplier_list
+
+            return Data
+
+        else:
+            return {"status": "Error No Such Supplier"}
 
     def UpdateSupplier(json_data):
         supplier_id = json_data['supplier_id']
@@ -50,21 +63,47 @@ class SupplierHandler:
         supplier_address = json_data['supplier_address']
         supplier_phone = json_data['supplier_phone']
 
-        result = SupplierRepository.SupplierRepository.UpdateSupplier(
-            supplier_id, supplier_name, supplier_address, supplier_phone)
+        supplier_list = SupplierRepository.SupplierRepository.GetSupplierById(
+            supplier_id)
 
-        if result == "success":
-            return {"status": "Success"}
+        if supplier_list:
+            result = SupplierRepository.SupplierRepository.UpdateSupplier(
+                supplier_id, supplier_name, supplier_address, supplier_phone)
+
+            if result == "success":
+                return {"status": "Success"}
+
+            else:
+                return {"status": "Error Updating Supplier"}
         else:
-            return {"status": "Error"}
+            return {"status": "Error Supplier Not Found"}
 
     def DeleteSupplier(json_data):
         supplier_id = json_data['supplier_id']
 
-        result = SupplierRepository.SupplierRepository.DeleteSupplier(
+        supplier_list = SupplierRepository.SupplierRepository.GetSupplierById(
             supplier_id)
 
-        if result == "success":
-            return {"status": "Success"}
+        if supplier_list:
+            purchase_header_list = PurchaseHeaderRepository.PurchaseHeaderRepository.GetPurchaseHeaderBySupplier(
+                supplier_id)
+
+            if purchase_header_list:
+                product_detail_list = ProductDetailRepository.ProductDetailRepository.GetProductDetailBySupplier(
+                    supplier_id)
+
+                if product_detail_list:
+                    result = SupplierRepository.SupplierRepository.DeleteSupplier(
+                        supplier_id)
+
+                    if result == "success":
+                        return {"status": "Success"}
+
+                    else:
+                        return {"status": "Error Deleting Supplier"}
+                else:
+                    return {"status": "Please Delete Supplier's Product's Detail First"}
+            else:
+                return {"status": "Please Delete Supplier's Purchase's Header First"}
         else:
-            return {"status": "Error"}
+            return {"status": "Error Supplier Not Found"}

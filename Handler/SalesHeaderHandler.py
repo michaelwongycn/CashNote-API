@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import Repository.SalesHeaderRepository as SalesHeaderRepository
+import Repository.SalesDetailRepository as SalesDetailRepository
 
 import Factory.SalesHeaderFactory as SalesHeaderFactory
 
@@ -29,37 +30,61 @@ class SalesHeaderHandler:
 
             return sales_header
         else:
-            return {"status": "Error"}
+            return {"status": "Error Registering Sales's Header"}
 
     def GetSalesHeaderByShop(json_data):
         shop_id = json_data['shop_id']
 
-        purchase_header_list = SalesHeaderRepository.SalesHeaderRepository.GetSalesHeaderByShop(
+        sales_header_list = SalesHeaderRepository.SalesHeaderRepository.GetSalesHeaderByShop(
             shop_id)
 
-        Data = {}
-        Data["Data"] = purchase_header_list
+        if sales_header_list:
+            Data = {}
+            Data["Data"] = sales_header_list
 
-        return Data
+            return Data
+
+        else:
+            return {"status": "Error No Such Sales's Header"}
 
     def SetPaymentToPaid(json_data):
         sales_id = json_data['sales_id']
 
-        result = SalesHeaderRepository.SalesHeaderRepository.SetPaymentToPaid(
+        sales_header_list = SalesHeaderRepository.SalesHeaderRepository.GetSalesHeaderById(
             sales_id)
 
-        if result == "success":
-            return {"status": "Success"}
+        if sales_header_list:
+            result = SalesHeaderRepository.SalesHeaderRepository.SetPaymentToPaid(
+                sales_id)
+
+            if result == "success":
+                return {"status": "Success"}
+
+            else:
+                return {"status": "Error Updating Sales's Header"}
         else:
-            return {"status": "Error"}
+            return {"status": "Error Sales's Header Not Found"}
 
     def DeleteSalesHeader(json_data):
         sales_id = json_data['sales_id']
 
-        result = SalesHeaderRepository.SalesHeaderRepository.DeleteSalesHeader(
+        sales_header_list = SalesHeaderRepository.SalesHeaderRepository.GetSalesHeaderById(
             sales_id)
 
-        if result == "success":
-            return {"status": "Success"}
+        if sales_header_list:
+            sales_detail_list = SalesDetailRepository.SalesDetailRepository.GetSalesDetailBySales(
+                sales_id)
+
+            if sales_detail_list:
+                result = SalesHeaderRepository.SalesHeaderRepository.DeleteSalesHeader(
+                    sales_id)
+
+                if result == "success":
+                    return {"status": "Success"}
+
+                else:
+                    return {"status": "Error Deleting Sales's Header"}
+            else:
+                return {"status": "Please Delete Sales's Detail First"}
         else:
-            return {"status": "Error"}
+            return {"status": "Error Sales's Header Not Found"}

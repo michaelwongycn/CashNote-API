@@ -1,5 +1,7 @@
 import Repository.AccountRepository as AccountRepository
 import Repository.ShopRepository as ShopRepository
+import Repository.SalesHeaderRepository as SalesHeaderRepository
+
 
 import Factory.AccountFactory as AccountFactory
 
@@ -21,14 +23,13 @@ class AccountHandler:
                 account)
 
             if result == "success":
-
                 account = {"account_id": str(account.account_id),  "shop_id": str(account.shop_id),
                            "account_name": str(account.account_name), "account_password": str(account.account_password),
                            "account_previlege": str(account.account_previlege), "account_status": str(account.account_status)}
 
                 return account
             else:
-                return {"status": "Error"}
+                return {"status": "Error Registering Admin"}
 
         else:
             return {"status": "Username Already Taken"}
@@ -39,10 +40,14 @@ class AccountHandler:
         account_list = AccountRepository.AccountRepository.GetAccountByShop(
             shop_id)
 
-        Data = {}
-        Data["Data"] = account_list
+        if account_list:
+            Data = {}
+            Data["Data"] = account_list
 
-        return Data
+            return Data
+
+        else:
+            return {"status": "Error No Such Shop's Admin"}
 
     def RemoveAdmin(json_data):
         account_id = json_data['account_id']
@@ -52,14 +57,23 @@ class AccountHandler:
 
         if account_list:
             if account_list[0]['account_previlege'] == "Admin":
-                AccountRepository.AccountRepository.DeleteAccount(
-                    account_id)
-                return {"status": "Success"}
-            else:
-                return {"status": "Error"}
 
+                account_id = account_list[0]['account_id']
+
+                sales_header_list = SalesHeaderRepository.SalesHeaderRepository.GetSalesHeaderByAccount(
+                    account_id)
+
+                if not sales_header_list:
+                    AccountRepository.AccountRepository.DeleteAccount(
+                        account_id)
+                    return {"status": "Success"}
+
+                else:
+                    return {"status": "Please Delete Admin's Sales First"}
+            else:
+                return {"status": "Error Can't Remove Owner"}
         else:
-            return {"status": "Error"}
+            return {"status": "Error Admin Not Found"}
 
     def Login(json_data):
         account_name = json_data['account_name']

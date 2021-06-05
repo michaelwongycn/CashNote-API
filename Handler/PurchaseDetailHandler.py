@@ -22,34 +22,52 @@ class PurchaseDetailHandler:
             product_old_stock = product_detail_list[0]['stock']
             product_new_stock = product_old_stock + amount
 
-            ProductDetailRepository.ProductDetailRepository.UpdateProductDetailStock(
+            result = ProductDetailRepository.ProductDetailRepository.UpdateProductDetailStock(
                 product_detail_id, product_new_stock)
 
-            purchase_detail = PurchaseDetailFactory.PurchaseDetailFactory.CreatePurchaseDetail(
-                purchase_id, product_detail_id, amount)
+            if result == "success":
+                purchase_detail = PurchaseDetailFactory.PurchaseDetailFactory.CreatePurchaseDetail(
+                    purchase_id, product_detail_id, amount)
 
-            PurchaseDetailRepository.PurchaseDetailRepository.AddPurchaseDetail(
-                purchase_detail)
+                result = PurchaseDetailRepository.PurchaseDetailRepository.AddPurchaseDetail(
+                    purchase_detail)
 
-            return product_detail_list[0]
+                if result == "success":
+                    return product_detail_list[0]
+
+                else:
+                    result = ProductDetailRepository.ProductDetailRepository.UpdateProductDetailStock(
+                        product_detail_id, product_old_stock)
+                    return {"status": "Error Registering Purchase's Detail"}
+            else:
+                return {"status": "Error Registering Purchase's Detail"}
 
         else:
             product_detail = ProductDetailFactory.ProductDetailFactory.CreateProductDetail(
                 product_id, supplier_id, product_purchase_price, amount, product_expired_date)
 
-            ProductDetailRepository.ProductDetailRepository.AddProductDetail(
+            result = ProductDetailRepository.ProductDetailRepository.AddProductDetail(
                 product_detail)
 
-            purchase_detail = PurchaseDetailFactory.PurchaseDetailFactory.CreatePurchaseDetail(
-                purchase_id, product_detail.product_detail_id, amount)
+            if result == "success":
+                purchase_detail = PurchaseDetailFactory.PurchaseDetailFactory.CreatePurchaseDetail(
+                    purchase_id, product_detail.product_detail_id, amount)
 
-            PurchaseDetailRepository.PurchaseDetailRepository.AddPurchaseDetail(
-                purchase_detail)
+                result = PurchaseDetailRepository.PurchaseDetailRepository.AddPurchaseDetail(
+                    purchase_detail)
 
-            purchase_detail = {"purchase_id": str(purchase_detail.purchase_id),  "product_detail_id": str(purchase_detail.product_detail_id),
-                               "amount": str(purchase_detail.amount), "purchase_detail_status": str(purchase_detail.purchase_detail_status)}
+                if result == "success":
+                    purchase_detail = {"purchase_id": str(purchase_detail.purchase_id),  "product_detail_id": str(purchase_detail.product_detail_id),
+                                       "amount": str(purchase_detail.amount), "purchase_detail_status": str(purchase_detail.purchase_detail_status)}
 
-            return purchase_detail
+                    return purchase_detail
+
+                else:
+                    ProductDetailRepository.ProductDetailRepository.DeleteProductDetail(
+                        product_detail.product_detail_id)
+                    return {"status": "Error Registering Purchase's Detail"}
+            else:
+                return {"status": "Error Registering Purchase's Detail"}
 
     def GetPurchaseDetailByPurchase(json_data):
         purchase_id = json_data['purchase_id']
@@ -57,10 +75,14 @@ class PurchaseDetailHandler:
         purchase_detail_list = PurchaseDetailRepository.PurchaseDetailRepository.GetPurchaseDetailByPurchase(
             purchase_id)
 
-        Data = {}
-        Data["Data"] = purchase_detail_list
+        if purchase_detail_list:
+            Data = {}
+            Data["Data"] = purchase_detail_list
 
-        return Data
+            return Data
+
+        else:
+            return {"status": "Error No Such Purchase's Detail"}
 
     def GetUniquePurchaseDetail(json_data):
         purchase_id = json_data['purchase_id']
@@ -69,16 +91,28 @@ class PurchaseDetailHandler:
         purchase_detail_list = PurchaseDetailRepository.PurchaseDetailRepository.GetUniquePurchaseDetail(
             purchase_id, product_detail_id)
 
-        return purchase_detail_list
+        if purchase_detail_list:
+            Data = {}
+            Data["Data"] = purchase_detail_list
+
+            return Data
+
+        else:
+            return {"status": "Error No Such Purchase's Detail"}
 
     def DeleteUniquePurchaseDetail(json_data):
         purchase_id = json_data['purchase_id']
         product_detail_id = json_data['product_detail_id']
 
-        result = PurchaseDetailRepository.PurchaseDetailRepository.DeletePurchaseDetail(
+        purchase_detail_list = PurchaseDetailRepository.PurchaseDetailRepository.GetUniquePurchaseDetail(
             purchase_id, product_detail_id)
 
-        if result == "success":
-            return {"status": "Success"}
+        if purchase_detail_list:
+            result = PurchaseDetailRepository.PurchaseDetailRepository.DeletePurchaseDetail(
+                purchase_id, product_detail_id)
+
+            if result == "success":
+                return {"status": "Success"}
+
         else:
-            return {"status": "Error"}
+            return {"status": "Error Purchase's Detail Not Found"}

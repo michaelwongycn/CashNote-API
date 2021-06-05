@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import Repository.PurchaseHeaderRepository as PurchaseHeaderRepository
+import Repository.PurchaseDetailRepository as PurchaseDetailRepository
 
 import Factory.PurchaseHeaderFactory as PurchaseHeaderFactory
 
@@ -29,7 +30,7 @@ class PurchaseHeaderHandler:
 
             return purchase_header
         else:
-            return {"status": "Error"}
+            return {"status": "Error Registering Purchase's Header"}
 
     def GetPurchaseHeaderByShop(json_data):
         shop_id = json_data['shop_id']
@@ -37,29 +38,53 @@ class PurchaseHeaderHandler:
         purchase_header_list = PurchaseHeaderRepository.PurchaseHeaderRepository.GetPurchaseHeaderByShop(
             shop_id)
 
-        Data = {}
-        Data["Data"] = purchase_header_list
+        if purchase_header_list:
+            Data = {}
+            Data["Data"] = purchase_header_list
 
-        return Data
+            return Data
+
+        else:
+            return {"status": "Error No Such Purchase's Header"}
 
     def SetPaymentToPaid(json_data):
         purchase_id = json_data['purchase_id']
 
-        result = PurchaseHeaderRepository.PurchaseHeaderRepository.SetPaymentToPaid(
+        purchase_header_list = PurchaseHeaderRepository.PurchaseHeaderRepository.GetPurchaseHeaderById(
             purchase_id)
 
-        if result == "success":
-            return {"status": "Success"}
+        if purchase_header_list:
+            result = PurchaseHeaderRepository.PurchaseHeaderRepository.SetPaymentToPaid(
+                purchase_id)
+
+            if result == "success":
+                return {"status": "Success"}
+
+            else:
+                return {"status": "Error Updating Purchase's Header"}
         else:
-            return {"status": "Error"}
+            return {"status": "Error Purchase's Header Not Found"}
 
     def DeletePurchaseHeader(json_data):
         purchase_id = json_data['purchase_id']
 
-        result = PurchaseHeaderRepository.PurchaseHeaderRepository.DeletePurchaseHeader(
+        purchase_header_list = PurchaseHeaderRepository.PurchaseHeaderRepository.GetPurchaseHeaderById(
             purchase_id)
 
-        if result == "success":
-            return {"status": "Success"}
+        if purchase_header_list:
+            purchase_detail_list = PurchaseDetailRepository.PurchaseDetailRepository.GetPurchaseDetailByPurchase(
+                purchase_id)
+
+            if purchase_detail_list:
+                result = PurchaseHeaderRepository.PurchaseHeaderRepository.DeletePurchaseHeader(
+                    purchase_id)
+
+                if result == "success":
+                    return {"status": "Success"}
+
+                else:
+                    return {"status": "Error Deleting Purchase's Header"}
+            else:
+                return {"status": "Please Delete Purchase's Detail First"}
         else:
-            return {"status": "Error"}
+            return {"status": "Error Purchase's Header Not Found"}

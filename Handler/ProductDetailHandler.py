@@ -1,7 +1,7 @@
 import Repository.SupplierRepository as SupplierRepository
 import Repository.ProductDetailRepository as ProductDetailRepository
 import Repository.PurchaseDetailRepository as PurchaseDetailRepository
-import Repository.PurchaseHeaderRepository as PurchaseHeaderRepository
+import Repository.SalesDetailRepository as SalesDetailRepository
 
 import Factory.ProductDetailFactory as ProductDetailFactory
 
@@ -33,7 +33,7 @@ class ProductDetailHandler:
             return product_detail
 
         else:
-            return {"status": "Error"}
+            return {"status": "Error Registering Product's Detail"}
 
     def GetProductDetailByProduct(json_data):
         product_id = json_data['product_id']
@@ -54,31 +54,61 @@ class ProductDetailHandler:
 
             result.append(tempResult)
 
-        Data = {}
-        Data["Data"] = result
+        if result:
+            Data = {}
+            Data["Data"] = result
 
-        return Data
+            return Data
+
+        else:
+            return {"status": "Error No Such Product's Detail"}
 
     def UpdateProductDetail(json_data):
         product_detail_id = json_data['product_detail_id']
         product_expired_date = json_data['product_expired_date']
         product_purchase_price = json_data['product_purchase_price']
 
-        result = ProductDetailRepository.ProductDetailRepository.UpdateProductDetail(
-            product_detail_id, product_expired_date, product_purchase_price)
+        product_detail_list = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
+            product_detail_id)
 
-        if result == "success":
-            return {"status": "Success"}
+        if product_detail_list:
+            result = ProductDetailRepository.ProductDetailRepository.UpdateProductDetail(
+                product_detail_id, product_expired_date, product_purchase_price)
+
+            if result == "success":
+                return {"status": "Success"}
+
+            else:
+                return {"status": "Error Updating Product's Detail"}
         else:
-            return {"status": "Error"}
+            return {"status": "Error Product's Detail Not Found"}
 
     def DeleteProductDetail(json_data):
         product_detail_id = json_data['product_detail_id']
 
-        result = ProductDetailRepository.ProductDetailRepository.DeleteProductDetail(
+        product_detail_list = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
             product_detail_id)
 
-        if result == "success":
-            return {"status": "Success"}
+        if product_detail_list:
+            purchase_detail_list = PurchaseDetailRepository.PurchaseDetailRepository.GetPurchaseDetailByProductDetail(
+                product_detail_id)
+
+            if not purchase_detail_list:
+                sales_detail_list = SalesDetailRepository.SalesDetailRepository.GetSalesDetailByProductDetail(
+                    product_detail_id)
+
+                if not sales_detail_list:
+                    result = ProductDetailRepository.ProductDetailRepository.DeleteProductDetail(
+                        product_detail_id)
+
+                    if result == "success":
+                        return {"status": "Success"}
+
+                    else:
+                        return {"status": "Error Deleting Product's Detail"}
+                else:
+                    return {"status": "Please Delete Product's Detail's Sales First"}
+            else:
+                return {"status": "Please Delete Product's Detail's Purchase First"}
         else:
-            return {"status": "Error"}
+            return {"status": "Error Product's Detail Not Found"}
