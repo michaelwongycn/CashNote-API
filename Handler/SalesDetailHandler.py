@@ -1,7 +1,6 @@
 import Repository.ProductDetailRepository as ProductDetailRepository
 import Repository.SalesDetailRepository as SalesDetailRepository
 
-import Factory.ProductDetailFactory as ProductDetailFactory
 import Factory.SalesDetailFactory as SalesDetailFactory
 
 

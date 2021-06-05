@@ -24,6 +24,7 @@ CREATE TABLE product (
 CREATE TABLE product_detail (
     product_detail_id text,
     product_id text,
+    supplier_id text,
     product_purchase_price integer,
     stock integer,
     product_expired_date text,

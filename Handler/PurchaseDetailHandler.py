@@ -9,12 +9,13 @@ class PurchaseDetailHandler:
     def RegisterPurchaseDetail(json_data):
         purchase_id = json_data['purchase_id']
         product_id = json_data['product_id']
+        supplier_id = json_data['supplier_id']
         product_purchase_price = json_data['product_purchase_price']
         product_expired_date = json_data['product_expired_date']
         amount = json_data['amount']
 
-        product_detail_list = ProductDetailRepository.ProductDetailRepository.GetProductDetailWithPriceAndExpiredDateByProduct(
-            product_id, product_expired_date, product_purchase_price)
+        product_detail_list = ProductDetailRepository.ProductDetailRepository.GetProductDetailWithSupplierPriceAndExpiredDateByProduct(
+            product_id, supplier_id, product_expired_date, product_purchase_price)
 
         if product_detail_list:
             product_detail_id = product_detail_list[0]['product_detail_id']
@@ -34,7 +35,7 @@ class PurchaseDetailHandler:
 
         else:
             product_detail = ProductDetailFactory.ProductDetailFactory.CreateProductDetail(
-                product_id, product_purchase_price, amount, product_expired_date)
+                product_id, supplier_id, product_purchase_price, amount, product_expired_date)
 
             ProductDetailRepository.ProductDetailRepository.AddProductDetail(
                 product_detail)
