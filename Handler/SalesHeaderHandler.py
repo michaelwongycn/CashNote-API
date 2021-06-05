@@ -75,7 +75,7 @@ class SalesHeaderHandler:
             sales_detail_list = SalesDetailRepository.SalesDetailRepository.GetSalesDetailBySales(
                 sales_id)
 
-            if sales_detail_list:
+            if not sales_detail_list:
                 result = SalesHeaderRepository.SalesHeaderRepository.DeleteSalesHeader(
                     sales_id)
 

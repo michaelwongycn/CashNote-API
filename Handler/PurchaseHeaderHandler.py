@@ -75,7 +75,7 @@ class PurchaseHeaderHandler:
             purchase_detail_list = PurchaseDetailRepository.PurchaseDetailRepository.GetPurchaseDetailByPurchase(
                 purchase_id)
 
-            if purchase_detail_list:
+            if not purchase_detail_list:
                 result = PurchaseHeaderRepository.PurchaseHeaderRepository.DeletePurchaseHeader(
                     purchase_id)
 

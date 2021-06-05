@@ -88,11 +88,11 @@ class SupplierHandler:
             purchase_header_list = PurchaseHeaderRepository.PurchaseHeaderRepository.GetPurchaseHeaderBySupplier(
                 supplier_id)
 
-            if purchase_header_list:
+            if not purchase_header_list:
                 product_detail_list = ProductDetailRepository.ProductDetailRepository.GetProductDetailBySupplier(
                     supplier_id)
 
-                if product_detail_list:
+                if not product_detail_list:
                     result = SupplierRepository.SupplierRepository.DeleteSupplier(
                         supplier_id)
 
