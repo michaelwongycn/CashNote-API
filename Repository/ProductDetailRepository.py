@@ -151,7 +151,7 @@ class ProductDetailRepository:
 
         return product_detail_list
 
-    def UpdateProductDetail(product_detail_id, product_expired_date, product_purchase_price):
+    def UpdateProductDetail(product_detail_id, product_expired_date, product_purchase_price, stock):
         connection = Utility.get_connection()
         cursor = connection.cursor()
 
@@ -161,6 +161,10 @@ class ProductDetailRepository:
 
         query = "UPDATE product_detail SET product_expired_date = ? WHERE product_detail_id = ? AND product_detail_status = 'A'"
         params = [product_expired_date, product_detail_id]
+        cursor.execute(query, params)
+
+        query = "UPDATE product_detail SET stock = ? WHERE product_detail_id = ? AND product_detail_status = 'A'"
+        params = [stock, product_detail_id]
         cursor.execute(query, params)
 
         connection.commit()

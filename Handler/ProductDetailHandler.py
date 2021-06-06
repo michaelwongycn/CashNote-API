@@ -67,13 +67,14 @@ class ProductDetailHandler:
         product_detail_id = json_data['product_detail_id']
         product_expired_date = json_data['product_expired_date']
         product_purchase_price = json_data['product_purchase_price']
+        stock = json_data['stock']
 
         product_detail_list = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
             product_detail_id)
 
         if product_detail_list:
             result = ProductDetailRepository.ProductDetailRepository.UpdateProductDetail(
-                product_detail_id, product_expired_date, product_purchase_price)
+                product_detail_id, product_expired_date, product_purchase_price, stock)
 
             if result == "success":
                 return {"status": "Success"}
