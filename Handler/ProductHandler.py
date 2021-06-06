@@ -70,7 +70,7 @@ class ProductHandler:
 
             if result == "success":
                 return {"status": "Success"}
-            
+
             else:
                 return {"status": "Error Updating Product"}
         else:
@@ -83,19 +83,13 @@ class ProductHandler:
             product_id)
 
         if product_list:
-            product_detail_list = ProductDetailRepository.ProductDetailRepository.GetProductDetailByProduct(
+            result = ProductRepository.ProductRepository.DeleteProduct(
                 product_id)
 
-            if not product_detail_list:
-                result = ProductRepository.ProductRepository.DeleteProduct(
-                    product_id)
+            if result == "success":
+                return {"status": "Success"}
 
-                if result == "success":
-                    return {"status": "Success"}
-
-                else:
-                    return {"status": "Error Deleting Product"}
             else:
-                return {"status": "Please Delete Product's Detail First"}
+                return {"status": "Error Deleting Product"}
         else:
             return {"status": "Error Product Not Found"}
