@@ -46,11 +46,15 @@ class ProductDetailHandler:
 
             supplier_id = product_detail['supplier_id']
 
-            supplier = SupplierRepository.SupplierRepository.GetSupplierById(
-                supplier_id)
+            if(supplier_id == "none"):
+                tempResult = {"Product Detail": product_detail,
+                              "Supplier": "None"}
+            else:
+                supplier = SupplierRepository.SupplierRepository.GetSupplierById(
+                    supplier_id)
 
-            tempResult = {"Product Detail": product_detail,
-                          "Supplier": supplier[0]}
+                tempResult = {"Product Detail": product_detail,
+                              "Supplier": supplier[0]}
 
             result.append(tempResult)
 
