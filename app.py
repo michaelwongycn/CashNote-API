@@ -438,6 +438,25 @@ def GetProfit():
         return "Error Getting Income"
 
 
+@app.route('/GetLoss', methods=['POST'])
+def GetLoss():
+    json_data = request.get_json()
+    type = json_data['type']
+    if type == 'D':
+        response = AnalyticHandler.AnalyticHandler.GetLossByYearMonthDate(
+            json_data)
+    elif type == 'M':
+        response = AnalyticHandler.AnalyticHandler.GetLossByYearMonth(
+            json_data)
+    elif type == 'Y':
+        response = AnalyticHandler.AnalyticHandler.GetLossByYear(json_data)
+
+    if response:
+        return json.dumps(response)
+    else:
+        return "Error Getting Income"
+
+
 @app.route('/GetDebt', methods=['POST'])
 def GetDebt():
     json_data = request.get_json()
