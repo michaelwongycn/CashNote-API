@@ -2,6 +2,7 @@ from datetime import datetime
 
 import Repository.PurchaseHeaderRepository as PurchaseHeaderRepository
 import Repository.PurchaseDetailRepository as PurchaseDetailRepository
+import Repository.SupplierRepository as SupplierRepository
 
 import Factory.PurchaseHeaderFactory as PurchaseHeaderFactory
 
@@ -40,7 +41,19 @@ class PurchaseHeaderHandler:
 
         if purchase_header_list:
             Data = {}
-            Data["Data"] = purchase_header_list
+            result = []
+
+            for purchase_header in purchase_header_list:
+                supplier_id = purchase_header['supplier_id']
+                supplier = SupplierRepository.SupplierRepository.GetSupplierById(
+                    supplier_id)
+
+                tempResult = {"Purchase Header": purchase_header,
+                              "Supplier": supplier[0]}
+
+                result.append(tempResult)
+
+            Data["Data"] = result
 
             return Data
 

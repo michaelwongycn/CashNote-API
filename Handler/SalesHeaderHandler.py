@@ -2,6 +2,7 @@ from datetime import datetime
 
 import Repository.SalesHeaderRepository as SalesHeaderRepository
 import Repository.SalesDetailRepository as SalesDetailRepository
+import Repository.AccountRepository as AccountRepository
 
 import Factory.SalesHeaderFactory as SalesHeaderFactory
 
@@ -40,7 +41,19 @@ class SalesHeaderHandler:
 
         if sales_header_list:
             Data = {}
-            Data["Data"] = sales_header_list
+            result = []
+
+            for sales_header in sales_header_list:
+                account_id = sales_header['account_id']
+                account = AccountRepository.AccountRepository.GetAccountById(
+                    account_id)
+
+                tempResult = {"Sales Header": sales_header,
+                              "Account": account[0]}
+
+                result.append(tempResult)
+
+            Data["Data"] = result
 
             return Data
 

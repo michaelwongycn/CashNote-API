@@ -1,4 +1,5 @@
 import Repository.ProductDetailRepository as ProductDetailRepository
+import Repository.ProductRepository as ProductRepository
 import Repository.PurchaseDetailRepository as PurchaseDetailRepository
 
 import Factory.ProductDetailFactory as ProductDetailFactory
@@ -77,7 +78,22 @@ class PurchaseDetailHandler:
 
         if purchase_detail_list:
             Data = {}
-            Data["Data"] = purchase_detail_list
+            result = []
+
+            for purchase_detail in purchase_detail_list:
+                product_detail_id = purchase_detail['product_detail_id']
+                product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
+                    product_detail_id)
+                product_id = product_detail[0]['product_id']
+                product = ProductRepository.ProductRepository.GetProductById(
+                    product_id)
+
+                tempResult = {"Purchase Detail": purchase_detail,
+                              "Product": product[0]}
+
+                result.append(tempResult)
+
+            Data["Data"] = result
 
             return Data
 
