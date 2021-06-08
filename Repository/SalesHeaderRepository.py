@@ -105,6 +105,72 @@ class SalesHeaderRepository:
 
         return sales_header_list
 
+    def GetSalesHeaderByYearMonthDate(date, shop_id):
+        connection = Utility.get_connection()
+        cursor = connection.cursor()
+
+        query = "SELECT * FROM sales_header WHERE strftime('%Y-%m-%d', transaction_date_time) = ? AND shop_id = ? AND sales_status = 'A'"
+        params = [date, shop_id]
+        cursor.execute(query, params)
+
+        sales_header = cursor.fetchall()
+        sales_header_list = []
+
+        for sales_item in sales_header:
+            dictionary = {"sales_id": sales_item[0],  "account_id": sales_item[1], "shop_id": sales_item[2],
+                          "transaction_date_time": sales_item[3], "transaction_price_change": sales_item[4],
+                          "payment_status": sales_item[5], "sales_status": sales_item[6]}
+            sales_header_list.append(dictionary)
+
+        cursor.close()
+        connection.close()
+
+        return sales_header_list
+
+    def GetSalesHeaderByYearMonth(date, shop_id):
+        connection = Utility.get_connection()
+        cursor = connection.cursor()
+
+        query = "SELECT * FROM sales_header WHERE strftime('%Y-%m', transaction_date_time) = ? AND shop_id = ? AND sales_status = 'A'"
+        params = [date, shop_id]
+        cursor.execute(query, params)
+
+        sales_header = cursor.fetchall()
+        sales_header_list = []
+
+        for sales_item in sales_header:
+            dictionary = {"sales_id": sales_item[0],  "account_id": sales_item[1], "shop_id": sales_item[2],
+                          "transaction_date_time": sales_item[3], "transaction_price_change": sales_item[4],
+                          "payment_status": sales_item[5], "sales_status": sales_item[6]}
+            sales_header_list.append(dictionary)
+
+        cursor.close()
+        connection.close()
+
+        return sales_header_list
+
+    def GetSalesHeaderByYear(date, shop_id):
+        connection = Utility.get_connection()
+        cursor = connection.cursor()
+
+        query = "SELECT * FROM sales_header WHERE strftime('%Y', transaction_date_time) = ? AND shop_id = ? AND sales_status = 'A'"
+        params = [date, shop_id]
+        cursor.execute(query, params)
+
+        sales_header = cursor.fetchall()
+        sales_header_list = []
+
+        for sales_item in sales_header:
+            dictionary = {"sales_id": sales_item[0],  "account_id": sales_item[1], "shop_id": sales_item[2],
+                          "transaction_date_time": sales_item[3], "transaction_price_change": sales_item[4],
+                          "payment_status": sales_item[5], "sales_status": sales_item[6]}
+            sales_header_list.append(dictionary)
+
+        cursor.close()
+        connection.close()
+
+        return sales_header_list
+
     def SetPaymentToPaid(sales_id):
         connection = Utility.get_connection()
         cursor = connection.cursor()

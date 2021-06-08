@@ -10,7 +10,7 @@ class PurchaseHeaderHandler:
     def RegisterPurhcaseHeader(json_data):
         supplier_id = json_data['supplier_id']
         shop_id = json_data['shop_id']
-        transaction_date_time = datetime.now().strftime("%d/%m/%Y")
+        transaction_date_time = datetime.now().strftime("%Y-%m-%d")
         transaction_price_change = json_data['transaction_price_change']
         payment_status = json_data['payment_status']
 

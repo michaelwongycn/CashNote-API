@@ -10,6 +10,7 @@ import Handler.PurchaseHeaderHandler as PurchaseHeaderHandler
 import Handler.PurchaseDetailHandler as PurchaseDetailHandler
 import Handler.SalesHeaderHandler as SalesHeaderHandler
 import Handler.SalesDetailHandler as SalesDetailHandler
+import Handler.AnalyticHandler as AnalyticHandler
 
 
 app = Flask(__name__)
@@ -397,3 +398,93 @@ def DeleteProductDetail():
         return json.dumps(response)
     else:
         return "Error Deleting Product Detail"
+
+
+@app.route('/DeleteProductDetail', methods=['POST'])
+def DeleteProductDetail():
+    json_data = request.get_json()
+
+    response = ProductDetailHandler.ProductDetailHandler.DeleteProductDetail(
+        json_data)
+
+    if response:
+        return json.dumps(response)
+    else:
+        return "Error Deleting Product Detail"
+
+
+@app.route('/GetIncome', methods=['POST'])
+def GetIncome():
+    json_data = request.get_json()
+    type = json_data['type']
+    if type == 'D':
+        response = AnalyticHandler.AnalyticHandler.GetIncomeByYearMonthDate(
+            json_data)
+    elif type == 'M':
+        response = AnalyticHandler.AnalyticHandler.GetIncomeByYearMonth(
+            json_data)
+    elif type == 'Y':
+        response = AnalyticHandler.AnalyticHandler.GetIncomeByYear(json_data)
+
+    if response:
+        return json.dumps(response)
+    else:
+        return "Error Getting Income"
+
+
+@app.route('/GetProfit', methods=['POST'])
+def GetProfit():
+    json_data = request.get_json()
+    type = json_data['type']
+    if type == 'D':
+        response = AnalyticHandler.AnalyticHandler.GetProfitByYearMonthDate(
+            json_data)
+    elif type == 'M':
+        response = AnalyticHandler.AnalyticHandler.GetProfitByYearMonth(
+            json_data)
+    elif type == 'Y':
+        response = AnalyticHandler.AnalyticHandler.GetProfitByYear(json_data)
+
+    if response:
+        return json.dumps(response)
+    else:
+        return "Error Getting Income"
+
+
+@app.route('/GetDebt', methods=['POST'])
+def GetDebt():
+    json_data = request.get_json()
+    type = json_data['type']
+    if type == 'D':
+        response = AnalyticHandler.AnalyticHandler.GetDebtByYearMonthDate(
+            json_data)
+    elif type == 'M':
+        response = AnalyticHandler.AnalyticHandler.GetDebtByYearMonth(
+            json_data)
+    elif type == 'Y':
+        response = AnalyticHandler.AnalyticHandler.GetDebtByYear(json_data)
+
+    if response:
+        return json.dumps(response)
+    else:
+        return "Error Getting Debt"
+
+
+@app.route('/GetRecievable', methods=['POST'])
+def GetRecievable():
+    json_data = request.get_json()
+    type = json_data['type']
+    if type == 'D':
+        response = AnalyticHandler.AnalyticHandler.GetRecievableByYearMonthDate(
+            json_data)
+    elif type == 'M':
+        response = AnalyticHandler.AnalyticHandler.GetRecievableByYearMonth(
+            json_data)
+    elif type == 'Y':
+        response = AnalyticHandler.AnalyticHandler.GetRecievableByYear(
+            json_data)
+
+    if response:
+        return json.dumps(response)
+    else:
+        return "Error Getting Debt"
