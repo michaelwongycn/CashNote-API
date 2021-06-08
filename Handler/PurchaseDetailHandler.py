@@ -84,9 +84,19 @@ class PurchaseDetailHandler:
                 product_detail_id = purchase_detail['product_detail_id']
                 product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
                     product_detail_id)
-                product_id = product_detail[0]['product_id']
-                product = ProductRepository.ProductRepository.GetProductById(
-                    product_id)
+
+                if product_detail:
+                    product_id = product_detail[0]['product_id']
+                    product = ProductRepository.ProductRepository.get(
+                        product_id)
+
+                    if product:
+                        tempResult = {"Purchase Detail": purchase_detail,
+                                      "Product": product[0]}
+                    else:
+                        tempResult = {"Purchase Detail": purchase_detail}
+                else:
+                    tempResult = {"Purchase Detail": purchase_detail}
 
                 tempResult = {"Purchase Detail": purchase_detail,
                               "Product": product[0]}

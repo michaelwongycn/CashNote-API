@@ -48,8 +48,11 @@ class PurchaseHeaderHandler:
                 supplier = SupplierRepository.SupplierRepository.GetSupplierById(
                     supplier_id)
 
-                tempResult = {"Purchase Header": purchase_header,
-                              "Supplier": supplier[0]}
+                if supplier:
+                    tempResult = {"Purchase Header": purchase_header,
+                                  "Supplier": supplier[0]}
+                else:
+                    tempResult = {"Purchase Header": purchase_header}
 
                 result.append(tempResult)
 

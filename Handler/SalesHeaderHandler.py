@@ -48,9 +48,11 @@ class SalesHeaderHandler:
                 account = AccountRepository.AccountRepository.GetAccountById(
                     account_id)
 
-                tempResult = {"Sales Header": sales_header,
-                              "Account": account[0]}
-
+                if account:
+                    tempResult = {"Sales Header": sales_header,
+                                  "Account": account[0]}
+                else:
+                    tempResult = {"Sales Header": sales_header}
                 result.append(tempResult)
 
             Data["Data"] = result

@@ -66,12 +66,19 @@ class SalesDetailHandler:
                 product_detail_id = sales_detail['product_detail_id']
                 product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
                     product_detail_id)
-                product_id = product_detail[0]['product_id']
-                product = ProductRepository.ProductRepository.get(
-                    product_id)
 
-                tempResult = {"Sales Detail": sales_detail,
-                              "Product": product[0]}
+                if product_detail:
+                    product_id = product_detail[0]['product_id']
+                    product = ProductRepository.ProductRepository.get(
+                        product_id)
+
+                    if product:
+                        tempResult = {"Sales Detail": sales_detail,
+                                      "Product": product[0]}
+                    else:
+                        tempResult = {"Sales Detail": sales_detail}
+                else:
+                    tempResult = {"Sales Detail": sales_detail}
 
                 result.append(tempResult)
 
