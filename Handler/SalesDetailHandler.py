@@ -60,7 +60,22 @@ class SalesDetailHandler:
 
         if sales_detail_list:
             Data = {}
-            Data["Data"] = sales_detail_list
+            result = []
+
+            for sales_detail in sales_detail_list:
+                product_detail_id = sales_detail['product_detail_id']
+                product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
+                    product_detail_id)
+                product_id = product_detail[0]['product_id']
+                product = ProductRepository.ProductRepository.get(
+                    product_id)
+
+                tempResult = {"Sales Detail": sales_detail,
+                              "Product": product[0]}
+
+                result.append(tempResult)
+
+            Data["Data"] = result
 
             return Data
 
@@ -76,22 +91,7 @@ class SalesDetailHandler:
 
         if sales_detail_list:
             Data = {}
-            result = []
-
-            for sales_detail in sales_detail_list:
-                product_detail_id = sales_detail['product_detail_id']
-                product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
-                    product_detail_id)
-                product_id = product_detail[0]['product_id']
-                product = ProductRepository.ProductRepository.GetProductById(
-                    product_id)
-
-                tempResult = {"Sales Detail": sales_detail,
-                              "Product": product[0]}
-
-                result.append(tempResult)
-
-            Data["Data"] = result
+            Data["Data"] = sales_detail_list
 
             return Data
 
