@@ -69,7 +69,7 @@ class SalesDetailHandler:
 
                 if product_detail:
                     product_id = product_detail[0]['product_id']
-                    product = ProductRepository.ProductRepository.get(
+                    product = ProductRepository.ProductRepository.GetProductById(
                         product_id)
 
                     if product:
