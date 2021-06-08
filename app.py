@@ -400,19 +400,6 @@ def DeleteProductDetail():
         return "Error Deleting Product Detail"
 
 
-@app.route('/DeleteProductDetail', methods=['POST'])
-def DeleteProductDetail():
-    json_data = request.get_json()
-
-    response = ProductDetailHandler.ProductDetailHandler.DeleteProductDetail(
-        json_data)
-
-    if response:
-        return json.dumps(response)
-    else:
-        return "Error Deleting Product Detail"
-
-
 @app.route('/GetIncome', methods=['POST'])
 def GetIncome():
     json_data = request.get_json()
