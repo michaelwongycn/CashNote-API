@@ -282,6 +282,156 @@ class AnalyticHandler:
         else:
             return {"status": "Error No Such Sales's Header For the Year"}
 
+    def GetLossByYearMonthDate(json_data):
+        shop_id = json_data['shop_id']
+        date = json_data['date']
+
+        Data = {}
+        total_loss = 0
+
+        sales_header_list = SalesHeaderRepository.SalesHeaderRepository.GetSalesHeaderByYearMonthDate(
+            date, shop_id)
+
+        if sales_header_list:
+            for sales_header in sales_header_list:
+                sales_id = sales_header['sales_id']
+                price_change = sales_header['transaction_price_change']
+                payment_status = sales_header['payment_status']
+                header_loss = 0
+
+                if payment_status == "Paid":
+                    sales_detail_list = SalesDetailRepository.SalesDetailRepository.GetSalesDetailBySales(
+                        sales_id)
+
+                    for sales_detail in sales_detail_list:
+                        product_detail_id = sales_detail['product_detail_id']
+                        detail_loss = 0
+
+                        product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
+                            product_detail_id)
+
+                        product_price = product_detail[0]['product_purchase_price']
+                        sale_price = sales_detail['product_sale_price']
+                        amount = sales_detail['amount']
+                        detail_loss = (int(sale_price) -
+                                       int(product_price)) * int(amount)
+                        header_loss = int(
+                            header_loss) + int(detail_loss)
+
+                    header_loss = int(
+                        header_loss) + int(price_change)
+
+                    if header_loss < 0:
+                        total_loss = int(
+                            total_loss) + int(header_loss)
+
+            result = {"Loss": total_loss}
+            Data["Data"] = result
+
+            return Data
+        else:
+            return {"status": "Error No Such Sales's Header For the Date"}
+
+    def GetLossByYearMonth(json_data):
+        shop_id = json_data['shop_id']
+        date = json_data['date']
+
+        Data = {}
+        total_loss = 0
+
+        sales_header_list = SalesHeaderRepository.SalesHeaderRepository.GetSalesHeaderByYearMonth(
+            date, shop_id)
+
+        if sales_header_list:
+            for sales_header in sales_header_list:
+                sales_id = sales_header['sales_id']
+                price_change = sales_header['transaction_price_change']
+                payment_status = sales_header['payment_status']
+                header_loss = 0
+
+                if payment_status == "Paid":
+                    sales_detail_list = SalesDetailRepository.SalesDetailRepository.GetSalesDetailBySales(
+                        sales_id)
+
+                    for sales_detail in sales_detail_list:
+                        product_detail_id = sales_detail['product_detail_id']
+                        detail_loss = 0
+
+                        product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
+                            product_detail_id)
+
+                        product_price = product_detail[0]['product_purchase_price']
+                        sale_price = sales_detail['product_sale_price']
+                        amount = sales_detail['amount']
+                        detail_loss = (int(sale_price) -
+                                       int(product_price)) * int(amount)
+                        header_loss = int(
+                            header_loss) + int(detail_loss)
+
+                    header_loss = int(
+                        header_loss) + int(price_change)
+
+                    if header_loss < 0:
+                        total_loss = int(
+                            total_loss) + int(header_loss)
+
+            result = {"Loss": total_loss}
+            Data["Data"] = result
+
+            return Data
+        else:
+            return {"status": "Error No Such Sales's Header For the Month"}
+
+    def GetLossByYear(json_data):
+        shop_id = json_data['shop_id']
+        date = json_data['date']
+
+        Data = {}
+        total_loss = 0
+
+        sales_header_list = SalesHeaderRepository.SalesHeaderRepository.GetSalesHeaderByYear(
+            date, shop_id)
+
+        if sales_header_list:
+            for sales_header in sales_header_list:
+                sales_id = sales_header['sales_id']
+                price_change = sales_header['transaction_price_change']
+                payment_status = sales_header['payment_status']
+                header_loss = 0
+
+                if payment_status == "Paid":
+                    sales_detail_list = SalesDetailRepository.SalesDetailRepository.GetSalesDetailBySales(
+                        sales_id)
+
+                    for sales_detail in sales_detail_list:
+                        product_detail_id = sales_detail['product_detail_id']
+                        detail_loss = 0
+
+                        product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
+                            product_detail_id)
+
+                        product_price = product_detail[0]['product_purchase_price']
+                        sale_price = sales_detail['product_sale_price']
+                        amount = sales_detail['amount']
+                        detail_loss = (int(sale_price) -
+                                       int(product_price)) * int(amount)
+                        header_loss = int(
+                            header_loss) + int(detail_loss)
+
+                    header_loss = int(
+                        header_loss) + int(price_change)
+
+                    if header_loss < 0:
+                        total_loss = int(
+                            total_loss) + int(header_loss)
+
+            result = {"Loss": total_loss}
+            Data["Data"] = result
+
+            return Data
+        else:
+            return {"status": "Error No Such Sales's Header For the Year"}
+
     def GetDebtByYearMonthDate(json_data):
         shop_id = json_data['shop_id']
         date = json_data['date']
