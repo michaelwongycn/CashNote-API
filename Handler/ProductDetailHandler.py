@@ -103,7 +103,7 @@ class ProductDetailHandler:
                     product_detail_id)
 
                 if not sales_detail_list:
-                    result = ProductDetailRepository.ProductDetailRepository.DeleteProductDetail(
+                    result = ProductDetailRepository.ProductDetailRepository.NonActiveProductDetail(
                         product_detail_id)
 
                     if result == "success":

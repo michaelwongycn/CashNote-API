@@ -222,3 +222,17 @@ class ProductDetailRepository:
         connection.close()
 
         return "success"
+
+    def NonActiveProductDetail(product_detail_id):
+        connection = Utility.get_connection()
+        cursor = connection.cursor()
+
+        query = "UPDATE product_detail SET product_detail_status = 'N' WHERE product_detail_id = ? AND product_detail_status = 'A'"
+        params = [product_detail_id]
+        cursor.execute(query, params)
+
+        connection.commit()
+        cursor.close()
+        connection.close()
+
+        return "success"
