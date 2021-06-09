@@ -134,11 +134,24 @@ class PurchaseDetailHandler:
             purchase_id, product_detail_id)
 
         if purchase_detail_list:
-            result = PurchaseDetailRepository.PurchaseDetailRepository.DeletePurchaseDetail(
-                purchase_id, product_detail_id)
+            amount = purchase_detail_list[0]['amount']
+            product_detail_id = purchase_detail_list[0]['product_detail_id']
 
-            if result == "success":
-                return {"status": "Success"}
+            product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
+                product_detail_id)[0]
 
+            newStock = product_detail['stock'] - amount
+            if newStock >= 0:
+                result = ProductDetailRepository.ProductDetailRepository.UpdateProductDetailStock(
+                    product_detail_id, newStock)
+
+                if result == "success":
+                    result = PurchaseDetailRepository.PurchaseDetailRepository.DeletePurchaseDetail(
+                        purchase_id, product_detail_id)
+
+                    if result == "success":
+                        return {"status": "Success"}
+            else:
+                return {"status": "Deleting this will make the stock negatif, please increase stock first"}
         else:
             return {"status": "Error Purchase's Detail Not Found"}

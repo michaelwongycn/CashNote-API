@@ -113,11 +113,23 @@ class SalesDetailHandler:
             sales_id, product_detail_id)
 
         if sales_detail_list:
-            result = SalesDetailRepository.SalesDetailRepository.DeleteSalesDetail(
-                sales_id, product_detail_id)
+            amount = sales_detail_list[0]['amount']
+            product_detail_id = sales_detail_list[0]['product_detail_id']
+
+            product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
+                product_detail_id)[0]
+
+            newStock = product_detail['stock'] + amount
+
+            result = ProductDetailRepository.ProductDetailRepository.UpdateProductDetailStock(
+                product_detail_id, newStock)
 
             if result == "success":
-                return {"status": "Success"}
+                result = SalesDetailRepository.SalesDetailRepository.DeleteSalesDetail(
+                    sales_id, product_detail_id)
+
+                if result == "success":
+                    return {"status": "Success"}
 
         else:
             return {"status": "Error Sales's Detail Not Found"}
