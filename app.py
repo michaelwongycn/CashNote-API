@@ -12,6 +12,7 @@ import Handler.SalesHeaderHandler as SalesHeaderHandler
 import Handler.SalesDetailHandler as SalesDetailHandler
 import Handler.AnalyticHandler as AnalyticHandler
 
+import Handler.SuperHandler as SH
 
 app = Flask(__name__)
 
@@ -494,3 +495,10 @@ def GetRecievable():
         return json.dumps(response)
     else:
         return "Error Getting Debt"
+
+
+@app.route('/Admin/GetAllAccount', methods=['POST'])
+def GetAllAccount():
+    response = SH.GetAllAccount()
+
+    return json.dumps(response)
