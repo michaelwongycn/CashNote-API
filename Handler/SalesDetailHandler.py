@@ -64,12 +64,12 @@ class SalesDetailHandler:
 
             for sales_detail in sales_detail_list:
                 product_detail_id = sales_detail['product_detail_id']
-                product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
+                product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailAndNonActiveById(
                     product_detail_id)
 
                 if product_detail:
                     product_id = product_detail[0]['product_id']
-                    product = ProductRepository.ProductRepository.GetProductById(
+                    product = ProductRepository.ProductRepository.GetProductAndNonActiveById(
                         product_id)
 
                     if product:

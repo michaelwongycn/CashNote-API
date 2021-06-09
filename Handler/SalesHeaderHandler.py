@@ -2,6 +2,7 @@ from datetime import datetime
 
 import Repository.SalesHeaderRepository as SalesHeaderRepository
 import Repository.SalesDetailRepository as SalesDetailRepository
+import Repository.ProductDetailRepository as ProductDetailRepository
 import Repository.AccountRepository as AccountRepository
 
 import Factory.SalesHeaderFactory as SalesHeaderFactory
@@ -90,16 +91,26 @@ class SalesHeaderHandler:
             sales_detail_list = SalesDetailRepository.SalesDetailRepository.GetSalesDetailBySales(
                 sales_id)
 
-            if not sales_detail_list:
-                result = SalesHeaderRepository.SalesHeaderRepository.DeleteSalesHeader(
-                    sales_id)
+            if sales_detail_list:
+                for sales_detail in sales_detail_list:
+                    amount = sales_detail[0]['amount']
+                    product_detail_id = sales_detail[0]['product_detail_id']
 
-                if result == "success":
-                    return {"status": "Success"}
+                    product_detail = ProductDetailRepository.ProductDetailRepository.GetProductDetailById(
+                        product_detail_id)[0]
 
-                else:
-                    return {"status": "Error Deleting Sales's Header"}
+                    newStock = product_detail['stock'] + amount
+
+                    result = ProductDetailRepository.ProductDetailRepository.UpdateProductDetailStock(
+                        product_detail_id, newStock)
+
+            result = SalesHeaderRepository.SalesHeaderRepository.DeleteSalesHeader(
+                sales_id)
+
+            if result == "success":
+                return {"status": "Success"}
+
             else:
-                return {"status": "Please Delete Sales's Detail First"}
+                return {"status": "Error Deleting Sales's Header"}
         else:
             return {"status": "Error Sales's Header Not Found"}

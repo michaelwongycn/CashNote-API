@@ -83,7 +83,7 @@ class ProductHandler:
             product_id)
 
         if product_list:
-            result = ProductRepository.ProductRepository.DeleteProduct(
+            result = ProductRepository.ProductRepository.NonActiveProduct(
                 product_id)
 
             if result == "success":
