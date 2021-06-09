@@ -1,7 +1,7 @@
 import Repository.AccountRepository as AccountRepository
 
 
-def GetAllAccount(json_data):
+def GetAllAccount():
     account_list = AccountRepository.AccountRepository.GetAccounts()
 
     if account_list:

@@ -497,7 +497,7 @@ def GetRecievable():
         return "Error Getting Debt"
 
 
-@app.route('/Admin/GetAllAccount', methods=['POST'])
+@app.route('/Admin/GetAllAccount', methods=['GET'])
 def GetAllAccount():
     response = SH.GetAllAccount()
 
